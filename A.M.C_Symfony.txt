@@ -1,0 +1,379 @@
+
+
+
+
+
+# Installation et configuration de Symfony pour le projet  Air Models Club La Ciotat
+
+Ce tutoriel est composé de plusieurs chapitres qui sont :
+
+--1. CREATION DU PROJET
+
+--2. INSTALLATION DES DEPENDANCES
+
+--3. INSTALLATION DE SASS ET SASS-LOADER
+
+--4. CREATION DE LA BASE DE DONNEES
+
+--5. CREATION DES CONTROLLEURS PRINCIPEAUX
+
+--6. CREATION D'UNE ENTITE : USER
+
+--7. EMAIL ET FORMULAIRE D'INSCRIPTION
+
+--8. INSTALLATION DU BUNDLE D'ADMINISTRATION
+
+--9. CREATION DE L'ENTITE PROFILE
+
+## Prérequis
+- Windows avec WAMP installé
+- PowerShell et Visual Studio Code
+
+Symfony doit être installé dans le dossier du serveur web pour fonctionner correctement et il faut l'installer depuis un terminal.
+
+-Ouvrir un terminal "PowerShell" dans windows, PowerShell se lance par défaut sur : c:\user\"utilisateur" mais il faut 
+qu'il soit dans le server wamp donc taper la commande :"cd ../.." pour revenir sur "c" ensuite taper la commande :"cd wamp64/www"
+pour qu'il se situe dans le bon dossier, il doit afficher : "C:\wamp64\www>"
+
+
+## 1. CREATION DU PROJET
+
+
+- Dans le terminal, tapez la commandes suivante :
+
+"symfony new blogPotion --webapp" 
+
+Explication : Cette commande crée un nouveau projet full options Symfony nommé `blogPotion` mais peut être nommé comme bon vous semble.
+
+A ce moment on peut fermer le PowerShell(ou Git Bash) de windows pour ouvrir le projet avec "visual Studio Code"(1) et lancer un terminal "powershell" dedans,
+ensuite aller sur le site : https://symfony.com/doc/current/frontend/encore/installation.html pour voir les étapes suivantes.
+
+(1)Ou dans le terminal sur windows, tapez : "cd blogPotion" pour entrer dans le dossier récemment créé et :"code." pour démarrer VSCode depuis ce projet.
+
+
+## 2. INSTALLATION DES DEPENDANCES
+
+
+- Dans le terminal, tapez les commandes suivante :
+
+ "composer require symfony/webpack-encore-bundle"
+
+ "npm install"
+
+ "npm run dev"
+
+ "npm install bootstrap --save-dev"
+
+"
+
+"
+
+
+## 3. INSTALLATION DE SASS ET SASS-LOADER
+
+
+
+. DANS LES FICHIERS
+
+Dans le dossier style (assets/style), créer un fichier global.scss et y importer le code 
+qu'on trouve en premiere partie de la page :
+https://symfony.com/doc/current/frontend/encore/bootstrap.html 
+dans la partie : Importing Bootstrap Styles:
+
+                    // assets/styles/global.scss
+                    // customize some Bootstrap variables
+                    $primary: darken(#428bca, 20%);
+
+                    // the ~ allows you to reference things in node_modules
+                    @import "~bootstrap/scss/bootstrap";
+
+Ensuite, aller dans le dossier assets puis dans le fichier app.js, il faut modifier : "import './styles/app.css';" en : "import './styles/global.scss';"
+sous cette modif il faut aussi compléter le code(avant le dernier console.log) avec ce qu'on trouve sur la même page dans la section :
+ Importing Bootstrap JavaScript :
+
+                    // app.js
+                    const $ = require('jquery');
+                    // this "modifies" the jquery module: adding behavior to it
+                    // the bootstrap module doesn't export/return anything
+                    require('bootstrap');
+                    // or you can include specific pieces
+                    // require('bootstrap/js/dist/tooltip');
+                    // require('bootstrap/js/dist/popover');
+                    $(document).ready(function() {
+                    $('[data-toggle="popover"]').popover();
+                    });
+
+Aller dans le fichier bootstrap.js et mettre en commentaire le contenu total de la page
+
+Aller dans le fichier webpack.config.js et « DECOMMENTER » la ligne 57 (comme ci-dessous) :
+.enableSassLoader()
+
+ REVENIR  AU TERMINAL et taper la commande :
+
+"npm install sass-loader@^14.0.0 sass --save-dev"
+(ne pas copié/collé cette commande mais la taper directement)
+
+
+
+------------------------------           A PARTIR DE LA !       -------------------------------------------------------
+
+Pour visualiser notre travail sur notre navigateur préfféré, il faut lancer le serveur, dans le terminal, on peut taper la commande:
+
+"symfony server:start"
+
+Et cliquer sur le lien proposé dans le terminal pour lancer le site dans le navigateur.
+Pour arréter le serveur, dans le terminal, commencer par faire "ctrl + c"(control+c) et après on peut taper la commande :
+
+"symfony server:stop"
+
+Si on fait des modifs dans le code, alors que le serveur est en marche, il faut l'arréter et le relancer pour que ces modifs puissent être prise en compte.
+
+                                   --------------------------------------------------------------
+
+
+## 4. CREATION DE LA BASE DE DONNEES
+
+
+ Ouvrir le fichier ".env" et mettre en commentaire la ligne 29 (postgresql) car elle ne correspond pas au type de notre future base de données(database)
+Copier la ligne 27(sans le "#") car elle correpond à notre future database : "mysql sans mariaDB"
+
+Créer un fichier ".env.local" à la racine du projet et y coller cette ligne 27 que l'on va modifier comme suit :
+Changer le 1er "app" par le nom d'utilisateur qu'on utilise pour ouvrir "phpmyadmin", supprimer le "!changeme!" car c'est l'éventuel mot de passe que, ici, 
+nous n'utilisont pas, le nombre à 4 chiffres c'est le numéro du port, remplacer le 2emme "app" par le nom de notre future base de données. 
+Ce qui devrait nous donner quelque chose comme :
+
+ --  DATABASE_URL="mysql://root:@127.0.0.1:3306/(nomdelabasededonnées)?serverVersion=8.0.32&charset=utf8mb4"
+
+(note) : Dans le fichier ".env" on peut aussi laisser la ligne 27 non commentée
+
+- Dans le terminal, tapez la commande suivante :
+
+ "symfony console d:d:c"(ou doctrine:database:create)
+
+
+## 5. CREATION DES CONTROLLEURS PRINCIPEAUX "homeController" et ProfileController"
+
+les noms de controlleurs doivent commencer par une majuscule.
+- Dans le terminal, tapez les commandes suivante :
+
+ "symfony console make:controller HomeController"
+
+cela cré un fichier "HomeController" dans le dossier "Controller" et un "index.html.twig" dans le dossier "Template/home" on peut modifier ce "index.html.twig" 
+dans la div sous "style", par exemple mettre un "h1" avec du texte ou encore un body html avec toute la présentation de notre site, c'est notre page d'accueil.
+
+ "symfony console make:controller ProfileController"
+
+
+                               ------------------------------ EXEMPLE DE MODIFICATION FRONT HTML -----------------------------------
+
+
+ok dans la page "index.html.twig" il faut remplacer ce qui a entre le "{% block body %}" et le "{% endblock %}" par un body html tel que proposé par Pierre
+(voir addons) après avoir créé un dossier "image"(l'avoir remplis avec 3 photos) dans le dossier "public", les "src" des "img"(du body recement collé) sont déjà faits suivant ce model :  "{{asset('image1.jpg')}}"
+
+et dans "base.html.twig" coller le code (base.html.twig.txt) que l'on trouve dans le dossier "addons" de ce projet, les "href" du menu sont déjà réglés pour les futures 
+modifs, on aura ainsi un menu fonctionnel et un footer (les modifiers suivant la demande) communs à toutes les pages.
+
+
+                                               -------------------------------------------------------------------
+
+
+## 6. CREATION D'UNE ENTITE : USER
+
+
+ (c’est-à-dire une table dans une base de donnée) spécifique de symfony (user)
+- Dans le terminal, tapez les commandes suivante :
+
+	"symfony console make:user User"
+	"symfony console make:migration"
+	"symfony console doctrine:migrations:migrate"    (ou "symfony console d:m:m")
+
+Ces trois commandes sont utilisées dans le framework Symfony pour gérer les utilisateurs et les migrations de base de données .
+
+"symfony console make:user User" : Cette commande génère automatiquement le code nécessaire pour créer une nouvelle classe d'utilisateur Symfony. 
+Elle crée une classe User dans le répertoire de votre choix (généralement src/Entity ou src/Entity/User) avec les propriétés et méthodes de base d'un utilisateur. 
+Cela facilite grandement la gestion des utilisateurs dans votre application Symfony.
+
+ "symfony console make:migration" : Cette commande génère automatiquement une migration basée sur les différences détectées entre vos entités 
+Symfony et votre base de données. Une migration est un fichier PHP qui contient les instructions pour mettre à jour votre base de données afin de refléter les 
+changements dans vos entités. Cela simplifie le processus de mise à jour de votre schéma de base de données tout en maintenant la cohérence avec votre code.
+
+"symfony console doctrine:migrations:migrate" : Cette commande exécute les migrations en attente sur votre base de données. Elle applique toutes les migrations 
+qui n'ont pas encore été exécutées, mettant ainsi à jour votre base de données avec les derniers changements définis dans vos migrations. 
+Cela garantit que votre base de données est toujours synchronisée avec votre code.
+
+1ere question : voulez vous stocker l'utilisateur dans la base de données (proposé oui) donc entrée = oui
+2eme question : proposé "email" entrée = oui
+3eme question : est ce qu'on utilise un système de hashage(criptage) du mot de passe (proposé oui) entrée = oui
+
+bon la, on a oublié de mettre un "userName" dans cet "entity" ou alors cela ne nous a pas été proposé, il faut donc rappeller cet "entity" avec :
+
+ "symfony console make:entity User"
+
+La il nous dit que l'entite existe déjà et est ce que vous voulez rajouter une nouvelle propriété ou nouveau champ et il nous demande ce nouveau nom auquel 
+on répond :  username
+
+1ere question : quel type ? (proposé oui) entrée = oui
+
+2eme question : combien de caractères (field length proposé 255) réponse 30 (ou ce qu'on veut)
+
+3eme question : est ce que cela peut être nullable en base de données (proposé non) entrée = non
+
+4eme question : est ce qu'il y a d'autres propriété si on fait entrée(non) cela termine la procédure mais "oui" donc tapez le nom de la nouvelle propriété : "isActive"
+isActive est un champ qui va permètre d'activer ou non un utilisateur
+
+question [boolean] donc entrée = oui
+
+question est ce que c'est nullable (proposé non) entrée = non
+
+comme la 4eme question : est ce qu'il y a d'autres propriété, on fait entrée(non) cela termine la procédure
+
+"symfony console make:migration"
+
+--- Aller dans le fichier homecontroller.php est effacer le mot « home » dans cette ligne :
+#[Route('/home', name: 'app_home')]
+
+
+symfony server start (pour visualiser le taff)
+
+
+
+## 7. EMAIL ET FORMULAIRE D'INSCRIPTION
+
+
+
+-- 1) Création d'un formulaire d'inscription
+	
+ "symfony console make:registration-form"
+
+make:registration-form : C'est la commande spécifique pour générer un formulaire d'inscription. 
+Elle fait partie du bundle MakerBundle de Symfony, qui est un ensemble d'outils pour accélérer le processus de développement en générant automatiquement du code boilerplate.
+Lorsque vous exécutez cette commande, Symfony va vous guider à travers un assistant pour configurer les options du formulaire d'inscription, comme les champs à inclure 
+(par exemple, nom, e-mail, mot de passe), les validations à appliquer, etc. 
+Une fois terminé, Symfony générera automatiquement les fichiers nécessaires pour le formulaire d'inscription, y compris la classe du formulaire, le template Twig associé 
+et les tests unitaires, si vous en avez activé la génération.
+En résumé, cette commande simplifie le processus de création d'un formulaire d'inscription dans votre application Symfony en générant automatiquement le 
+code boilerplate nécessaire, ce qui vous permet de vous concentrer sur le développement des fonctionnalités de votre application.
+
+question 1 = yes = enter
+question 2 = yes = enter
+question 3 = yes = taper yes 
+question 4 = taper l'adresse mail du site
+-- c'est l'adresse d'envois de mails de confirmation, si c'est un gmail, il faudra installer un serveur de emails (voir section 5 plus bas) et si on utilise
+-- un hébergeur, il faudra utiliser l'adresse mail prévue à cet effet chez ce fournisseur.
+question 5 = entrez le nom de l'entreprise (le club)
+question 6 = no tapez no pour que l'utilisateur ne soit pas connecté lors de son inscription et que cela l'oblige à aller voir ses mails pour se connecter.
+question 7 = 15
+ (Répondre à toutes les questions dans le terminal et à la question(7) suivante «What route should the user be redirected to after registration?»: répondre no 15)
+
+-- 2) Mise en place du bundle de vérification de l'email
+
+Aller dans cette adresse github : https://github.com/SymfonyCasts/verify-email-bundle
+
+Dans le «readme», copier  la commande ci-dessous  et la coller dans le terminal de commande :
+
+ "composer require symfonycasts/verify-email-bundle"
+
+composer : C'est le gestionnaire de dépendances pour PHP.
+require : C'est la commande pour demander à Composer d'installer un nouveau package.
+
+symfonycasts/verify-email-bundle : C'est le nom du package à installer. VerifyEmailBundle est un bundle Symfony développé par SymfonyCasts qui facilite la 
+mise en place de la vérification par e-mail dans les applications Symfony. Il fournit des fonctionnalités pour gérer le processus de vérification des adresses e-mail 
+des utilisateurs, y compris la génération de liens de vérification, la validation des adresses e-mail et la gestion des événements liés à la vérification par e-mail.
+En résumé, cette commande installe VerifyEmailBundle dans votre projet Symfony, vous permettant de mettre en place facilement la vérification par e-mail pour 
+les utilisateurs de votre application Symfony. 
+Cela simplifie le processus de gestion des adresses e-mail vérifiées et améliore la sécurité de votre application en confirmant les identités des utilisateurs.
+
+-- 3) Finir la migration
+
+ "symfony console make:migration"
+
+ "symfony console doctrine:migrations:migrate"    (ou "symfony console d:m:m")
+
+-- 4) Mise en place d'un système d'authentification
+
+"symfony console make:auth"
+
+question 1 = tapez 1
+question 2 = tapez AppAuthenticator
+question 3 = enter = yes
+question 4 = enter = yes
+question 5 = enter = yes
+question 6 = tapez 0
+
+-- Dans le code, aller à src/Security/AppAuthenticator pour :
+
+mettre en commentaire la ligne 53 (throw new \Exception...etc...)
+à la ligne 52, changer la redirection :"generate('some_route')" pour "generate('app_profile')"
+
+-- Aller ensuite dans config/packages/security.yaml pour décommenter les lignes 42 et 43
+
+
+-- 5) mise en place d'un serveur de emails
+
+ "composer require symfony/google-mailer"
+
+composer : C'est le gestionnaire de dépendances pour PHP.
+require : C'est la commande pour demander à Composer d'installer un nouveau package.
+symfony/google-mailer : C'est le nom du package à installer. GoogleMailer est un composant Symfony qui fournit une intégration facile avec les services de messagerie de Google,
+ tels que Gmail. Il permet d'envoyer des e-mails via le protocole SMTP de Google.
+En résumé, cette commande installe le composant GoogleMailer dans votre projet Symfony, vous permettant d'envoyer des e-mails via les services de messagerie de Google 
+de manière facile et intégrée. Cela peut être utile si vous avez besoin d'envoyer des e-mails depuis votre application Symfony via Gmail ou d'autres services de messagerie de Google.
+
+DANS LES FICHIERS
+Copier le bloc ci-dessous dans le fichier .env.local :
+###> symfony/google-mailer ###
+# Gmail SHOULD NOT be used on production, use it in development only.
+# MAILER_DSN=gmail://MAIL:PASSWORD @default
+###< symfony/google-mailer ###
+
+Remplacer son adresse mail et le code généré par google(sans les espaces) comme ci-dessous :
+# MAILER_DSN=gmail://adressemail@gmail.com:codecriptépargoogle@default
+
+Puis coller et décommenter cette ligne dans le fichier .env.local
+
+                     -----------------On peut faire un "symfony server:start" pour visualiser le taff---------------------------------
+
+Dans la barre d'adresse en haut,après le 8000, rajouter "/register" pour accéder à la page de connection, la on peut se rendre compte qu'il manque le "username" dans le formulaire
+
+                               -----------ctrl+c dans le terminal et "symfony server:stop"-----------------------
+
+donc aller à src/Form/RegistrationFormType.php, rajouter(sous le $builder ligne 19) :
+"->add('username')"
+
+ensuite dans src/Entity/User.php, vérifier(à la ligne 137) que la "public function setIsActive" se nomme bien comme cela ;-)
+regarder aussi si la fonstion(ligne 149) d'en dessous se nomme bien "setIsVerified" et non "setVerified"
+voir aussi la "public function getPassword()" ligne 99 et mettre un point d'intérrogation "?" devant "string" (pour qu'il accepte aussi une valeur nulle)
+
+aller aussi dans src/controller/RegistrationController.php, au dessus de la ligne 35($user->setPassword) et taper :
+"$user->setIsActive(false);"
+
+ok une derniere manip pour recevoir ces mails de confirmation consiste à faire dans le terminal(ouvrir un 2eme PowerShell) :
+"symfony console messenger:consume async"
+
+
+
+## 8. INSTALLATION DU BUNDLE D'ADMINISTRATION
+
+
+
+Dans le terminal entrer :
+
+"composer require easycorp/easyadmin-bundle"
+
+"symfony console make:admin:dashboard"  ----> aller voir dans src/controller/admin si il y a bien : DashboardController.php
+
+question 1 = Which class name do you prefer for your Dashboard controller? [DashboardController]: = enter = yes
+question 2 = In which directory of your project do you want to generate "DashboardController"? [src/Controller/Admin/]: = enter = yes
+
+
+"symfony console make:admin:crud"
+
+question 1 = Which Doctrine entity are you going to manage with this CRUD controller?: = taper 0
+question 2 = [src/Controller/Admin/] enter = yes
+question 3 = [App\Controller\Admin] enter = yes
+
+
+Dans src/Controller/Admin/DashboardController.php il faut décommenter les lignes 20 et 21
+Mettre en commentaire la ligne 16 (return parent::index() )
+A la ligne 20 faire "clickdroit/import Class" sur "AdminUrlGenerator" (qui doit être souligné en rouge)
+A la ligne 21 remplacer "OneOfYourCrudController"(souligné en rouge) p
