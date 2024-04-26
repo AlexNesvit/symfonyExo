@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">BlogPotions</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav fs-4 ">
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_home') }}">Accueil</a>
+				</li>
+				{% if not app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register')}}">S'inscrire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login')}}">Connexion</a>
+                    </li>
+                {% else %}
+					{% if app.user.isVerified() %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_profile')}}">Profile</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin')}}">Administration</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link hover-underline-animation" aria-label="déconnexion" href="{{ path('app_logout') }}">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </a>
+                    </li>
+                {% endif %}
+				
+			</ul>
+		</div>
+	</div>
+</nav>

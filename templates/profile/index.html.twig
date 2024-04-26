@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Profil{% endblock %}
+
+{% block body %}
+    {% if not profile.id %}
+		<h1>Remplissez votre profil</h1>
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		<button type="submit">Enregistrer</button>
+		{{ form_end(form) }}
+	{% else %}
+	<div class="wrapper d-flex align-items-stretch row gx-0 pe-4">
+			<nav id="sidebar" class="col-3">
+				<div class="p-4">
+					<ul class="list-unstyled components mb-5">
+						<li class="active">
+							<div class="card">
+								<div class="card-header text-center">
+
+									<a href="{{ path('app_profile') }}" class="img logo rounded-circle mb-5">
+									<img src="{{ asset('images/avatars/' ~ profile.avatarName) }}" alt="Avatar de {{ profile.pseudo }}" style="max-width: 200px; border: 2px solid #000; border-radius: 50%;"/>
+										
+									</a>
+								</div>
+								<div class="card-body">
+                                    <div class="mb-3">
+										<p>Prénom :
+											{{ profile.prenom }}</p>
+									</div>
+									<div class="mb-3">
+										<p>Nom:
+											{{ profile.nom }}</p>
+									</div>
+									<div class="mb-3">
+										<p>Date d'inscription :
+											{{ profile.createdAt|date('d-m-Y') }}</p>
+									</div>
+									<div class="mb-3">
+										<p>Magical Level :
+											{{ profile.magicalLevel }}</p>
+									</div>
+
+
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<!-- Page Content  -->
+
+                
+                <!-- ... le reste de votre code ... -->
+			<div id="dynamicContent" class="p-4 p-md-5 mt-4 border col-9">
+                
+			</div>
+		</div>
+       
+        
+        
+    {% endif %}
+{% endblock %}

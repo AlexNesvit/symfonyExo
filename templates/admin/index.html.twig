@@ -1,0 +1,38 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-image: url("{{ asset('images/wizards-cauldron.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .content-top {
+            display:none;
+        }
+        .content-header {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .sidebar {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+       
+    </style>
+{% endblock %}
+
+
+
+{% block content_header %}
+    <h1 class="text-center text-light">😈 Bienvenue au royaume Magique de FreakyFranco 👺</h1>
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid h-100">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <img class="position-absolute bottom-0 " src="{{ asset('images/giphy.gif') }}" alt="">
+            </div>
+        </div>
+    </div>
+{% endblock %}
