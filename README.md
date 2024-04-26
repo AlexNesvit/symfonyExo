@@ -138,6 +138,11 @@ Nous partirons sur une installation de base complète pour le dévellopement d'a
 
     ```bash
     symfony console make:admin:dashboard
+
+- Running server
+
+    ```bash
+    symfony server:start
     ```
 
 - Mail asynchrone
