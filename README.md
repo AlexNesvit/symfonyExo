@@ -140,3 +140,9 @@ Nous partirons sur une installation de base complète pour le dévellopement d'a
     symfony console make:admin:dashboard
     ```
 
+- Mail asynchrone
+
+    ```bash
+    symfony console messenger:consume async
+    ```
+
