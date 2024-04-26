@@ -30,10 +30,16 @@ class UserCrudController extends AbstractCrudController
             ;
     }
     public function configureFields(string $pageName): iterable
-    {
+    {   
+        $roles = ['ROLE_USER', 'ROLE_ADMIN'];
         $fields = [
             IdField::new('id')->hideOnForm(),
             EmailField::new('email'),
+            ChoiceField::new('roles')
+            ->setChoices(array_combine($roles, $roles))
+            ->allowMultipleChoices()
+            ->renderExpanded()
+            ->renderAsBadges(),
         ];
 
         $password = TextField::new('password')
