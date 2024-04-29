@@ -130,6 +130,8 @@ Nous partirons sur une installation de base complète pour le dévellopement d'a
 
     MAILER_DSN=gmail://mail:password@default
 
+    APP_BASE_URL=https://127.0.0.1:8000/  (pour PC) :8889 (pour MAC)
+
 - Nous allons maintenant installer le bundle d'administration easyAdmin 4
 
     ```bash
