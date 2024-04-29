@@ -128,6 +128,8 @@ Nous partirons sur une installation de base complète pour le dévellopement d'a
 
     > configuration a réaliser dans le .env.local
 
+    MAILER_DSN=gmail://mail:password@default
+
 - Nous allons maintenant installer le bundle d'administration easyAdmin 4
 
     ```bash
